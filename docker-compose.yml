@@ -1,0 +1,22 @@
+version: '3.4'
+
+services:
+  web.ui:
+    image: ${DOCKER_REGISTRY-}webui
+    build:
+      context: .
+      dockerfile: src/Web.UI/Dockerfile
+    depends_on:
+      - sql.database
+    ports: 
+        - "8080:80"
+
+  sql.database:
+    container_name: dockersql.database
+    image: mcr.microsoft.com/mssql/server:2017-latest-ubuntu
+    environment:
+        ACCEPT_EULA: Y
+        SA_PASSWORD: 1Secure*Password1
+        MSSQL_PID: Express
+    ports:
+        - "1433:1433"
